@@ -19,6 +19,7 @@
 
     <Button
         android:id="@+id/reset_button"
+        android:backgroundTint="?attr/colorPrimaryVariant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -31,6 +32,7 @@
 
     <Button
         android:id="@+id/pause_button"
+        android:backgroundTint="@color/teal_200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -43,6 +45,7 @@
 
     <Button
         android:id="@+id/start_button"
+        android:backgroundTint="@color/teal_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
