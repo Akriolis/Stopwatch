@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.widget.Button
 import android.widget.Chronometer
+import com.akrio.stopwatch.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,6 +14,8 @@ class MainActivity : AppCompatActivity() {
         private const val RUNNING_KEY = "running"
         private const val BASE_KEY = "base"
     }
+
+    private lateinit var binding: ActivityMainBinding
 
     private lateinit var startButton: Button
     private lateinit var pauseButton: Button
@@ -25,12 +28,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        startButton = findViewById(R.id.start_button)
-        pauseButton = findViewById(R.id.pause_button)
-        resetButton = findViewById(R.id.reset_button)
-        stopWatch = findViewById(R.id.stopwatch)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        startButton = binding.startButton
+        pauseButton = binding.pauseButton
+        resetButton = binding.resetButton
+
+        stopWatch = binding.stopwatch
 
         if (savedInstanceState != null){
             offset = savedInstanceState.getLong(OFFSET_KEY)
