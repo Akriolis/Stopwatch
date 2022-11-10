@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.widget.Button
 import android.widget.Chronometer
 import com.akrio.stopwatch.databinding.ActivityMainBinding
+import kotlinx.coroutines.NonCancellable.start
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,12 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var startButton: Button
-    private lateinit var pauseButton: Button
-    private lateinit var resetButton: Button
-
-    private lateinit var stopWatch: Chronometer
-
     private var running = false
     private var offset: Long = 0
 
@@ -33,41 +28,35 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        startButton = binding.startButton
-        pauseButton = binding.pauseButton
-        resetButton = binding.resetButton
-
-        stopWatch = binding.stopwatch
-
         if (savedInstanceState != null){
             offset = savedInstanceState.getLong(OFFSET_KEY)
             running = savedInstanceState.getBoolean(RUNNING_KEY)
             if (running){
-                stopWatch.base = savedInstanceState.getLong(BASE_KEY)
-                stopWatch.start()
+                binding.stopwatch.base = savedInstanceState.getLong(BASE_KEY)
+                binding.stopwatch.start()
             } else setBaseTime()
         }
 
-        startButton.setOnClickListener {
+        binding.startButton.setOnClickListener {
             if(!running){
                 setBaseTime()
-                stopWatch.start()
+                binding.stopwatch.start()
                 running = true
             }
         }
 
-        pauseButton.setOnClickListener {
+        binding.pauseButton.setOnClickListener {
             if (running){
                 saveOffSet()
-                stopWatch.stop()
+                binding.stopwatch.stop()
                 running = false
             }
         }
 
-        resetButton.setOnClickListener {
+        binding.resetButton.setOnClickListener {
             offset = 0
             setBaseTime()
-            stopWatch.stop()
+            binding.stopwatch.stop()
             running = false
         }
     }
@@ -76,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         if(running){
             saveOffSet()
-            stopWatch.stop()
+            binding.stopwatch.stop()
         }
     }
 
@@ -84,23 +73,23 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if(running){
             setBaseTime()
-            stopWatch.start()
+            binding.stopwatch.start()
             offset = 0
         }
     }
 
     private fun setBaseTime(){
-        stopWatch.base = SystemClock.elapsedRealtime() - offset
+        binding.stopwatch.base = SystemClock.elapsedRealtime() - offset
     }
 
     private fun saveOffSet(){
-        offset = SystemClock.elapsedRealtime() - stopWatch.base
+        offset = SystemClock.elapsedRealtime() - binding.stopwatch.base
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putLong(OFFSET_KEY, offset)
         outState.putBoolean(RUNNING_KEY, running)
-        outState.putLong(BASE_KEY,stopWatch.base)
+        outState.putLong(BASE_KEY,binding.stopwatch.base)
         super.onSaveInstanceState(outState)
     }
 
